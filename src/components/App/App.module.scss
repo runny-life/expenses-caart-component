@@ -1,0 +1,12 @@
+.content {
+  @include flex-center;
+
+  min-height: 100vh;
+  padding-top: rem(66px);
+  padding-inline: rem(16px);
+}
+
+.card {
+  max-width: rem(540px);
+  width: 100%;
+}

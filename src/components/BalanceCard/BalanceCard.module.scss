@@ -1,0 +1,42 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: rem(16px);
+  color: $color-white;
+  background: $color-red-500;
+  border-radius: 10px;
+
+  @include tablet {
+    padding-inline: rem(32px);
+    padding-block: rem(24px);
+    border-radius: 20px;
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+
+  @include tablet {
+    gap: rem(8px);
+  }
+}
+
+.amount {
+  @include text-preset-3;
+
+  @include tablet {
+    @include text-preset-2;
+  }
+}
+
+.logo {
+  width: rem(60px);
+  height: rem(40px);
+
+  @include tablet {
+    width: rem(72px);
+    height: rem(48px);
+  }
+}

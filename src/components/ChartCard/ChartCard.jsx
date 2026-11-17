@@ -1,5 +1,5 @@
 function ChartCard({ data }) {
-  return <pre>{JSON.stringify(data)}</pre>;
+  return <p>{data}</p>;
 }
 
 export default ChartCard;
