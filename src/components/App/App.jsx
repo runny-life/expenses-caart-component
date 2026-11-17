@@ -29,8 +29,10 @@ function App() {
 
   return (
     <main className={styles.content}>
-      <BalanceCard balance={921.48} />
-      <ChartCard data={data} />
+      <article className={styles.card}>
+        <BalanceCard balance={921.48} />
+        <ChartCard data={data} />
+      </article>
     </main>
   );
 }
