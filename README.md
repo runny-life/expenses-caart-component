@@ -1,110 +1,143 @@
-# Frontend Mentor - Expenses chart component
+# Frontend Mentor - Expenses chart component solution
 
-![Design preview for the Expenses chart component coding challenge](preview.jpg)
+This is a solution to
+the [Expenses chart component challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/expenses-chart-component-e7yJBUdjwt).
+Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-## Welcome! 👋
+## Table of contents
 
-Thanks for checking out this front-end coding challenge.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  - [Useful resources](#useful-resources)
+  - [AI Collaboration](#ai-collaboration)
+- [Getting started](#getting-started)
+- [Author](#author)
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects.
+## Overview
 
-**To do this challenge, you need a decent understanding of HTML, CSS and JavaScript.**
+### The challenge
 
-## The challenge
-
-Your challenge is to build out this bar chart component and get it looking as close to the design as possible.
-
-You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
-
-We provide the data for the chart in a local `data.json` file. So you can use that to dynamically add the bars if you choose.
-
-Your users should be able to:
+Users should be able to:
 
 - View the bar chart and hover over the individual bars to see the correct amounts for each day
-- See the current day's bar highlighted in a different colour to the other bars
-- View the optimal layout for the content depending on their device's screen size
+- See the current day’s bar highlighted in a different colour to the other bars
+- View the optimal layout for the content depending on their device’s screen size
 - See hover states for all interactive elements on the page
-- **Bonus**: See dynamically generated bars based on the data provided in the local JSON file
+- **Bonus**: Use the JSON data file provided to dynamically size the bars on the chart
 
-### Want some support on the challenge? 
+On top of that, the component is usable without a mouse: every bar can be reached with the keyboard (or tapped on a
+touch screen) to reveal its amount, and screen readers announce each bar as “Wednesday: $52.36 (today)”.
 
-[Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+### Screenshot
 
-## Where to find everything
+| Desktop                                     | Mobile                                    |
+| ------------------------------------------- | ----------------------------------------- |
+| ![Desktop layout](./screenshot-desktop.png) | ![Mobile layout](./screenshot-mobile.png) |
 
-Your task is to build out the project to the designs inside the `/design` folder. You will find both a mobile and a desktop version of the design. 
+### Links
 
-The designs are in JPG static format. Using JPGs will mean that you'll need to use your best judgment for styles such as `font-size`, `padding` and `margin`. 
+- Solution URL: [github.com/runny-life/expenses-caart-component](https://github.com/runny-life/expenses-caart-component)
+- Live Site URL: _add after deploying_
 
-If you would like the Figma design file to inspect the design in more detail, you can [subscribe as a PRO member](https://www.frontendmentor.io/pro).
+## My process
 
-You will find all the required assets in the `/images` folder. The assets are already optimized.
+### Built with
 
-There is also a `style-guide.md` file containing the information you'll need, such as color palette and fonts.
+- Semantic HTML5 markup (`main`, labelled `section`s, a real `ul` for the chart)
+- SCSS with CSS Modules, shared variables, mixins and functions
+- Flexbox and CSS Grid
+- Mobile-first workflow with a single `tablet` breakpoint (768px)
+- Fluid spacing via a custom SCSS `fluid()` function that outputs `clamp()`
+- [React 19](https://react.dev/) - UI library
+- [Vite](https://vite.dev/) - build tool and dev server
+- ESLint, Prettier, Husky and lint-staged - code quality on every commit
 
-## Using AI coding assistants
+### What I learned
 
-We've included two files to help you if you're using AI coding assistants (like Claude, GitHub Copilot, Cursor, etc.) while working on this challenge:
+**An accessible chart does not need a charting library.** Each bar is a list item. The visual parts (the coloured bar,
+the abbreviated day label and the tooltip) are `aria-hidden`, and a visually hidden span carries the full sentence for
+screen readers. The item is focusable, so the tooltip opens on keyboard focus and on tap, and `Escape` dismisses it.
 
-- `AGENTS.md` - Contains detailed instructions for AI assistants on how to help you with this challenge. It's tailored to this challenge's difficulty level, so the AI will provide guidance appropriate to your learning stage—offering more support for beginner challenges and encouraging more independence on advanced ones.
-- `CLAUDE.md` - A pointer file that directs Claude-based tools to the AGENTS.md instructions.
+```jsx
+<li className={styles.chartBar} tabIndex={0} onKeyDown={handleKeyDown}>
+  <div className={styles.bar} style={{ height: `${heightPercent}%` }} aria-hidden="true">
+    <span className={styles.tooltip}>{formattedAmount}</span>
+  </div>
+  <span className={styles.day} aria-hidden="true">
+    {day}
+  </span>
+  <span className={styles.srOnly}>
+    {dayName}: {formattedAmount}
+    {isToday ? ' (today)' : ''}
+  </span>
+</li>
+```
 
-**How to use them:** You don't need to do anything! These files are automatically detected by most AI coding tools. The AI will read them and adjust its behavior to be a better learning partner—guiding you toward solutions rather than just giving you the answers.
+**Percentage heights need a definite parent.** My first version applied the percentage height to a wrapper that also
+contained the day label, so the bars were not proportional to the data (the smallest bar was drawn at about half of its
+real size). Giving the bar a fixed-height grid row fixes it, and the tallest bar now measures exactly 150px.
 
-**Note:** These files are designed to help you *learn*, not to do the work for you. The AI is instructed to ask questions, give hints, and explain concepts rather than writing complete solutions.
+```scss
+.chartBar {
+  display: grid;
+  grid-template-rows: rem(150px) auto;
+}
 
-## Building your project
+.bar {
+  align-self: end; // height: N% now resolves against the 150px row
+}
+```
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+**Smaller things worth remembering**
 
-1. Initialize your project as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/).
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+- `Intl.NumberFormat` formats every amount in one place, so `$921.48`, `$478.33` and the tooltips can never drift apart.
+- The “today” bar is found by day key (`mon`, `tue`, …) instead of array position, so it keeps working if the JSON order
+  changes.
+- Vite’s `additionalData` plus a `@` alias keeps SCSS imports short without repeating `@use` in every module.
+- Text colours were checked against WCAG AA; the original muted brown (`#92857a`, 3.6:1 on white) was darkened to
+  `#7d7065` (4.8:1).
 
-## Deploying your project
+### Continued development
 
-As mentioned above, there are many ways to host your project for free. Our recommended hosts are:
+- Add tests (React Testing Library plus an `axe` check) so the accessibility work does not regress.
+- Compute the monthly total and the percentage change from real data instead of constants; the 7-day JSON file cannot
+  provide them.
+- Support `prefers-contrast` and `forced-colors`, and add a non-colour cue for the current day's bar.
+- Try the chart with VoiceOver on iOS and TalkBack on Android; so far it has only been checked in desktop Chromium.
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+### Useful resources
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://www.frontendmentor.io/guides/hosting-your-solution).
+- [WCAG 2.2: Content on Hover or Focus](https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html) -
+  the rules behind the dismissible, focus-reachable tooltip.
+- [WCAG 2.2: Use of Color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html) - why “today” should not rely
+  on colour alone.
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) - used to check text and graphic contrast.
+- [MDN: Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) -
+  currency formatting.
 
-## Create a custom `README.md`
+### AI Collaboration
 
-We strongly recommend overwriting this `README.md` with a custom one. We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code.
+I used Claude to audit the finished project for accessibility and to draft this README. It found, among other things,
+that the bars were not proportional to the data, that the chart was invisible to screen readers and keyboard users, and
+that the monthly total was calculated from the 7-day data instead of matching the design. I reviewed the changes and
+checked them in a headless browser (bar heights against the JSON values, keyboard focus, touch tap and the accessibility
+tree). It worked well for finding issues quickly; the colour-contrast fixes still needed a design decision from me.
 
-The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings. Please feel free to edit our template as much as you like.
+## Getting started
 
-Once you've added your information to the template, delete this file and rename the `README-template.md` file to `README.md`. That will make it show up as your repository's README file.
+```bash
+npm install
+npm run dev     # start the dev server
+npm run build   # production build
+npm run lint    # run ESLint
+```
 
-## Submitting your solution
+## Author
 
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://www.frontendmentor.io/guides/how-to-submit-solutions) for tips on how to do this.
-
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
-
-## Sharing your solution
-
-There are multiple places you can share your solution:
-
-1. Share your solution page in the **#finished-projects** channel of the [community](https://www.frontendmentor.io/community). 
-2. Share on [X (formerly Twitter)](https://x.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in your post. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on [LinkedIn](https://www.linkedin.com/company/frontend-mentor/).
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
-
-We provide templates to help you share your solution once you've submitted it on the platform. Please do edit them and include specific questions when you're looking for feedback. 
-
-The more specific you are with your questions the more likely it is that another member of the community will give you feedback.
-
-## Got feedback for us?
-
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
-
-This challenge is completely free. Please share it with anyone who will find it useful for practice.
-
-**Have fun building!** 🚀
+- GitHub - [@runny-life](https://github.com/runny-life)

@@ -1,34 +1,41 @@
+@mixin active-state {
+  & .bar {
+    background: $color-red-300;
+  }
+
+  & .barToday {
+    background: $color-blue-200;
+  }
+
+  & .tooltip {
+    opacity: 1;
+  }
+}
+
 .chartBar {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: end;
+  display: grid;
+  flex: 1 1 0;
+  grid-template-rows: rem(150px) auto;
+  justify-items: center;
   gap: fluid(8px, 16px, 375px, 768px);
-  width: 100%;
-  cursor: pointer;
+  min-width: 0;
 
   @include hover {
-    & .bar {
-      background: $color-red-300;
-    }
+    @include active-state;
+  }
 
-    & .barToday {
-      background: $color-blue-200;
-    }
-
-    & .tooltip {
-      opacity: 1;
-    }
+  // Tooltip also opens on keyboard focus and on tap (touch has no hover)
+  &:focus {
+    @include active-state;
   }
 }
 
 .bar {
-  display: grid;
+  position: relative;
+  align-self: end;
   max-width: rem(55px);
   width: 100%;
-  height: 100%;
-  max-height: rem(150px);
   background: $color-red-500;
   border-radius: 3px;
   transition: background-color 0.2s ease;
@@ -47,26 +54,29 @@
 
   position: absolute;
   bottom: calc(100% + rem(8px));
-  display: none;
-  color: $color-white;
+  left: 50%;
+  z-index: 1;
   padding: rem(8px);
+  color: $color-white;
+  white-space: nowrap;
   background: $color-brown-950;
   border-radius: 5px;
   opacity: 0;
+  transform: translateX(-50%);
   transition: opacity 0.2s ease;
   pointer-events: none;
-
-  @media (hover: hover) {
-    display: block;
-  }
 }
 
 .day {
   @include text-preset-6;
 
-  color: $color-brown-400;
+  color: $color-brown-500;
 
   @include tablet {
     @include text-preset-5;
   }
+}
+
+.srOnly {
+  @include visually-hidden;
 }

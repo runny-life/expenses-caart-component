@@ -4,7 +4,7 @@
 .label {
   @include text-preset-5;
 
-  color: $color-brown-400;
+  color: $color-brown-500;
 
   @include tablet {
     @include text-preset-4;
@@ -43,7 +43,7 @@
 .from {
   @include text-preset-5;
 
-  color: $color-brown-400;
+  color: $color-brown-500;
 
   @include tablet {
     @include text-preset-4;
