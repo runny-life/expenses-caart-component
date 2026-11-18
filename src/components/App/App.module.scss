@@ -7,6 +7,8 @@
 }
 
 .card {
+  display: grid;
+  gap: fluid(16px, 24px, 375px, 768px);
   max-width: rem(540px);
   width: 100%;
 }

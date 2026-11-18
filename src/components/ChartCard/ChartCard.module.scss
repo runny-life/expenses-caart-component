@@ -1,11 +1,15 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: rem(24px);
-  padding-inline: rem(16px);
-  padding-block: rem(24px);
+  gap: fluid(24px, 32px, 375px, 768px);
+  padding-inline: fluid(16px, 32px, 375px, 768px);
+  padding-block: fluid(24px, 40px, 375px, 768px);
   background-color: $color-white;
   border-radius: rem(10px);
+
+  @include tablet {
+    border-radius: rem(20px);
+  }
 }
 
 .title {
