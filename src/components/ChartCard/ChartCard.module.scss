@@ -1,0 +1,23 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24px);
+  padding-inline: rem(16px);
+  padding-block: rem(24px);
+  background-color: $color-white;
+  border-radius: rem(10px);
+}
+
+.title {
+  @include text-preset-3;
+
+  color: $color-brown-950;
+  margin-bottom: rem(32px);
+}
+
+.divider {
+  height: rem(1px);
+  width: 100%;
+  background: $color-red-100;
+  border: none;
+}
