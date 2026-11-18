@@ -43,7 +43,7 @@ touch screen) to reveal its amount, and screen readers announce each bar as “W
 ### Links
 
 - Solution URL: [github.com/runny-life/expenses-caart-component](https://github.com/runny-life/expenses-caart-component)
-- Live Site URL: _add after deploying_
+- Live Site URL: [GitHub Pages](https://runny-life.github.io/expenses-chart-component/)
 
 ## My process
 
