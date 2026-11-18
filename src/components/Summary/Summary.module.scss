@@ -1,0 +1,51 @@
+.summary {
+}
+
+.label {
+  @include text-preset-5;
+
+  color: $color-brown-400;
+
+  @include tablet {
+    @include text-preset-4;
+  }
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.total {
+  @include text-preset-2;
+
+  color: $color-brown-950;
+
+  @include tablet {
+    @include text-preset-1;
+  }
+}
+
+.change {
+  text-align: end;
+  color: $color-brown-950;
+}
+
+.percent {
+  @include text-preset-5-bold;
+
+  @include tablet {
+    @include text-preset-4-bold;
+  }
+}
+
+.from {
+  @include text-preset-5;
+
+  color: $color-brown-400;
+
+  @include tablet {
+    @include text-preset-4;
+  }
+}
