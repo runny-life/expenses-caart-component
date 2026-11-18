@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     const controller = new AbortController();
 
-    fetch(`${import.meta.env.BASE_URL}data.json`)
+    fetch(`${import.meta.env.BASE_URL}data.json`, { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error('Error loading data');
         return res.json();
