@@ -8,7 +8,7 @@ function ChartCard({ data }) {
   return (
     <div className={styles.card}>
       <h1 className={styles.title}>Spending - Last 7 days</h1>
-      <Chart />
+      <Chart data={data} />
       <hr className={styles.divider} />
       <Summary total={total} />
     </div>
